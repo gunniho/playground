@@ -1,0 +1,46 @@
+var animals = ["Grizzly Bear", "Sloth", "Sea Lion"];
+
+for (var i = 0; i < animals.length; i++) {
+  console.log(animals[i]);
+}
+
+// Output:
+// Grizzly Bear
+// Sloth
+// Sea Lion
+
+var vacationSpots = ['SF', 'LA', 'Boston'];
+console.log(vacationSpots[0]);
+console.log(vacationSpots[1]);
+console.log(vacationSpots[2]);
+
+var vacationSpots = ['SF', 'LA', 'Boston'];
+
+for (var i = vacationSpots.length; i = 0 ; i--){
+  console.log('I would love to visit ' + vacationSpots[i]);
+}
+
+
+
+var myPlaces = ['SF', 'LA', 'Boston'];
+var friendPlaces = ['Monaco', 'London', 'SF'];
+
+for (var i = 0; i < myPlaces.length; i++){
+  for (var j = 0; j< friendPlaces.length; j++){
+    if (myPlaces[i] === friendPlaces[j]){
+      console.log(myPlaces[i]);
+    }
+  }
+}
+
+
+var cards = ['Diamond', 'Spade','Heart','Club'];
+var currentCard = 'Heart';
+
+while (currentCard !== 'Spade'){
+  console.log(currentCard);
+  var randomNumber = Math.floor(Math.random()*3);
+  currentCard = cards[randomNumber];
+}
+
+console.log(currentCard);

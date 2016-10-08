@@ -1,0 +1,236 @@
+SELECT price, COUNT(*) FROM fake_apps
+WHERE downloads > 20000
+GROUP BY price;
+
+/*
+Aggregate functions combine multiple rows together to form a single value of more meaningful information.
+COUNT takes the name of a column(s) as an argument and counts the number of rows where the value(s) is not NULL.
+GROUP BY is a clause used with aggregate functions to combine data from one or more columns.
+SUM() takes the column name as an argument and returns the sum of all the values in that column.
+MAX() takes the column name as an argument and returns the largest value in that column.
+MIN() takes the column name as an argument and returns the smallest value in that column.
+AVG() takes a column name as an argument and returns the average value for that column.
+ROUND() takes two arguments, a column name and the number of decimal places to round the values in that column.
+*/
+
+SELECT name, category, MIN(downloads) FROM fake_apps
+GROUP BY category;
+
+
+SELECT name, category, MAX(downloads) FROM fake_apps
+GROUP BY category;
+
+SELECT category, COUNT(name) FROM fake_apps
+GROUP BY category
+ORDER BY COUNT(name);
+
+SELECT COUNT(*) FROM fake_apps;
+
+SELECT name, category, price, MIN(downloads) FROM fake_apps;
+
+SELECT category, ROUND(AVG(price), 2) FROM fake_apps
+GROUP BY category
+ORDER BY AVG(price) DESC;
+
+SELECT name, MIN(downloads) FROM fake_apps;
+
+SELECT category, SUM(downloads) FROM fake_apps
+WHERE category = "Games";
+
+SELECT COUNT(*) FROM fake_apps
+WHERE price = 14.99;
+
+SELECT SUM(downloads) FROM fake_apps
+WHERE category = "Music";
+
+SELECT category, COUNT(*) FROM fake_apps
+GROUP BY category;
+
+SELECT name, category price, MAX(price) FROM fake_apps
+GROUP BY category;
+
+SELECT COUNT(name) FROM fake_apps
+WHERE name LIKE "a%";
+
+SELECT SUM(downloads) FROM fake_apps
+WHERE category = "Sports" OR category = "Health & Fitness";
+
+SELECT * FROM albums;
+SELECT * FROM artists;
+
+SELECT
+  *
+FROM
+	albums
+JOIN artists ON
+	albums.artist_id = artists.id;
+
+
+SELECT
+  artists.name AS 'Artist',
+  albums.name AS 'Album',
+  albums.year
+FROM
+	albums
+JOIN artists ON
+	albums.artist_id = artists.id
+WHERE
+	albums.year > 1980
+ORDER BY
+  artists.name;
+
+
+/*
+Primary Key is a column that serves a unique identifier for row in the table.
+Values in this column must be unique and cannot be NULL.
+Foreign Key is a column that contains the primary key to another table in the database.
+It is used to identify a particular row in the referenced table.
+Joins are used in SQL to combine data from multiple tables.
+INNER JOIN will combine rows from different tables if the join condition is true.
+LEFT OUTER JOIN will return every row in the left table, and if the join condition is not met,
+NULL values are used to fill in the columns from the right table.
+AS is a keyword in SQL that allows you to rename a column or table in the result set using an alias.
+*/
+
+
+CREATE TABLE tracks (id INTEGER PRIMARY KEY, title TEXT, album_id INTEGER);
+
+--SELECT * FROM albums;
+
+INSERT INTO tracks (id, title, album_id)
+VALUES (1, "Bad", 8),
+(2, "The Way You Make Me Feel", 8),
+(3, "Speed Demon", 8),
+(4, "Liberian Girl", 8),
+(5, "Just Good Friends", 8),
+(6, "Another Part of Me", 8),
+(7, "Man in the Mirror", 8),
+(8, "I Just Can't Stop Loving You", 8),
+(9, "Dirty Diana", 8),
+(10, "Smooth Criminal", 8);
+
+--SELECT * FROM tracks;
+
+
+SELECT * FROM
+	albums
+LEFT JOIN tracks ON
+	tracks.album_id = albums.id
+ORDER BY
+	albums.id;
+
+  /*1.
+Using the same pattern from the example above, find flight information about flights where the origin elevation is less than 2000 feet.
+*/
+SELECT *
+	FROM flights
+  WHERE origin IN (
+    SELECT code
+    FROM airports
+    WHERE elevation < 2000);
+
+    /*Using the same pattern, find flight information about flights where the Federal Aviation Administration region (faa_region) is the Southern region (ASO).*/
+
+    SELECT * FROM flights
+    WHERE origin in (
+    	SELECT code FROM airports
+      WHERE faa_region LIKE "%aso%");
+
+
+
+      SELECT a.dep_month,
+             a.dep_day_of_week,
+             AVG(a.flight_distance) AS average_distance
+        FROM (
+              SELECT dep_month,
+                    dep_day_of_week,
+                     dep_date,
+                     SUM(distance) AS flight_distance
+                FROM flights
+      --    			WHERE dep_day_of_week = "Friday"
+               GROUP BY 1,2,3
+             ) a
+       GROUP BY 1,2
+       ORDER BY 1,2;
+
+SELECT id
+	FROM flights AS f
+  WHERE distance < (
+ 	  SELECT AVG(distance)
+    FROM flights
+    WHERE carrier = f.carrier
+ );
+
+ SELECT
+ 		origin,
+     id,
+     (SELECT COUNT(*)
+         FROM flights f
+         WHERE f.id < flights.id
+         AND f.origin=flights.origin) + 1
+    AS flight_sequence_number
+ FROM flights;
+
+SELECT * FROM airports
+GROUP BY
+
+SELECT id, AVG(a.sale_price) FROM (
+  SELECT id, sale_price FROM order_items
+  UNION ALL
+  SELECT id, sale_price FROM order_items_historic) as a
+  GROUP BY 1;
+
+SELECT category FROM new_products
+INTERSECT
+SELECT category FROM legacy_products;
+
+
+UNION -- clause allows us to utilize information from multiple tables in our queries.
+UNION ALL -- clause allows us to utilize information from multiple tables in our queries, including duplicate values.
+INTERSECT -- is used to combine two SELECT statements, but returns rows only from the first SELECT statement that are identical to a row in the second SELECT statement.
+EXCEPT -- returns distinct rows from the first SELECT statement that aren’t output by the second SELECT statement*/
+
+/*SELECT
+		origin,
+    id,
+    (SELECT COUNT(*)
+        FROM flights f
+        WHERE f.id < flights.id
+        AND f.origin=flights.origin) + 1
+   AS flight_sequence_number
+FROM flights;
+
+
+1.
+Count the number of rows from the flights table, where arr_time is not null and the destination is ATL.
+*/
+
+SELECT COUNT(*) FROM flights
+WHERE arr_time IS NOT NULL AND destination = "ATL";
+
+SELECT
+	state,
+	COUNT(
+    	CASE
+  			WHEN elevation < 1000 THEN 1 ELSE NULL END) AS count_low_elevation_airports
+FROM airports
+GROUP BY state;
+
+SELECT
+	origin,
+  sum(distance) AS total_flight_distance,
+  sum(CASE WHEN carrier = 'DL' THEN distance ELSE 0 END) AS total_delta_flight_distance
+FROM flights
+GROUP BY origin;
+
+SELECT
+	origin,
+  100*(sum(
+    				CASE
+    					WHEN carrier = 'DL'
+    					THEN distance
+    					ELSE 0
+    					END)
+         /sum(distance)) AS percentage_flight_distance_from_delta
+  FROM flights
+  GROUP BY origin;
