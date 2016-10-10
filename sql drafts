@@ -1,0 +1,35 @@
+CREATE TABLE table_name (
+    column_1 data_type,
+    column_2 data_type,
+    column_3 data_type
+  );
+
+
+CREATE TABLE celebs (
+  id INTEGER,
+  name TEXT,
+  age INTEGER
+);
+
+INSERT INTO celebs (id, name, age) VALUES (1, 'Justin Bieber', 21);
+SELECT * FROM celebs;
+
+SQL is a programming language designed to manipulate and manage data stored in relational databases.
+
+A relational database is a database that organizes information into one or more tables.
+A table is a collection of data organized into rows and columns.
+A statement is a string of characters that the database recognizes as a valid command.
+
+CREATE TABLE creates a new table.
+INSERT INTO adds a new row to a table.
+SELECT queries data from a table.
+UPDATE edits a row in a table.
+ALTER TABLE changes an existing table.
+DELETE FROM deletes rows from a table.
+
+SELECT is the clause you use every time you want to query information from a database.
+WHERE is a popular command that lets you filter the results of the query based on conditions that you specify.
+LIKE and BETWEEN are special operators that can be used in a WHERE clause
+AND and OR are special operators that you can use with WHERE to filter the query on two or more conditions.
+ORDER BY lets you sort the results of the query in either ascending or descending order.
+LIMIT lets you specify the maximum number of rows that the query will return. This is especially important in large tables that have thousands or even millions of rows.

@@ -1,0 +1,82 @@
+function multiplyByThirteen(inputNumber) {
+  console.log(inputNumber * 13);
+}
+
+multiplyByThirteen(9);
+// Output: 117
+
+function takeOrder(topping) {
+  console.log('Order: pizza topped with '+ topping);
+}
+
+takeOrder('bacon');
+
+function getRemainder(numberOne, numberTwo) {
+  return numberOne % numberTwo;
+}
+
+console.log(getRemainder(365, 27));
+// Output: 14
+
+function multiplyByNineFifths(celsius) {
+  return celsius * (9/5);
+}
+
+function getFahrenheit(celsius) {
+  return multiplyByNineFifths(celsius) + 32;
+}
+
+console.log('The temperature is ' + getFahrenheit(15) + '°F');
+// Output: The temperature is 59°F
+
+var orderCount = 0;
+
+function takeOrder(topping, crustType) {
+  console.log('Order: ' + crustType + ' pizza topped with '+ topping);
+  orderCount = orderCount + 1;
+}
+
+takeOrder('bacon', 'thin crust');
+takeOrder('pineapple', 'thik crust');
+takeOrder('pepperoni', 'reg crust');
+
+function getSubTotal(itemCount){
+  return itemCount * 7.5;
+}
+
+console.log(orderCount);
+console.log(getSubTotal(orderCount));
+
+
+
+var orderCount = 0;
+
+function takeOrder(topping, crustType) {
+  console.log('Order: ' + crustType + ' pizza topped with '+ topping);
+  orderCount = orderCount + 1;
+}
+
+takeOrder('bacon', 'thin crust');
+takeOrder('pineapple', 'thik crust');
+takeOrder('pepperoni', 'reg crust');
+
+function getSubTotal(itemCount){
+  return itemCount * 7.5;
+}
+function getTax(){
+  return getSubTotal(orderCount) * 0.06;
+}
+
+function getTotal(){
+  return getSubTotal(orderCount) + getTax();
+}
+
+console.log(orderCount);
+console.log(getSubTotal(orderCount));
+console.log(getTotal());
+
+var bucketList = ['Tebo','Flug','yrla'];
+//var listItem = bucketList[3];
+console.log(bucketList.length);
+bucketList.push('Hoppa','Flytja');
+console.log(bucketList);
